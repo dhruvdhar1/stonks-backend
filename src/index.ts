@@ -3,7 +3,7 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import { rootRouter } from "./routes/rootRouter"
 
-const PORT = 8000
+const PORT = 80
 
 const app = express()
 app.use(bodyParser.json())
