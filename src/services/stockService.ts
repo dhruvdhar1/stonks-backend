@@ -74,6 +74,7 @@ export const subscribeStockQuote = async (req: Request, res: Response) => {
 }
 
 export const getHistoricalQuotes = async (req: Request, res: Response) => {
+    console.log("request received...")
     const params = req.query
     const from = String(params.from!)
     const interval: '1m' | '1h' | '1d' = String(params.interval!) as '1m' | '1h' | '1d'
