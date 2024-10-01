@@ -74,28 +74,32 @@ export const subscribeStockQuote = async (req: Request, res: Response) => {
 }
 
 export const getHistoricalQuotes = async (req: Request, res: Response) => {
-    console.log("request received...")
-    const params = req.query
-    const from = String(params.from!)
-    const interval: '1m' | '1h' | '1d' = String(params.interval!) as '1m' | '1h' | '1d'
-    const symbol = req.params["symbol"]
-    if(!symbol) {
-        res.status(400).send("invalid symbol")
-        return
-    }
-    if(!from || !interval) {
-        res.status(400).send("Invalid or missing fields")
-        return
-    }
-    const queryOptions = { period1: from, interval: interval};
-    const result = await yahooFinance.chart(symbol, queryOptions);
-    const quotes = result.quotes
-    if(quotes.length > 10) {
-        const latest10 = quotes.slice(quotes.length - 10)
-        const reformattedData = historicalDataDeserializer(latest10)
+    try {
+        console.log("request received...")
+        const params = req.query
+        const from = String(params.from!)
+        const interval: '1m' | '1h' | '1d' = String(params.interval!) as '1m' | '1h' | '1d'
+        const symbol = req.params["symbol"]
+        if(!symbol) {
+            res.status(400).send("invalid symbol")
+            return
+        }
+        if(!from || !interval) {
+            res.status(400).send("Invalid or missing fields")
+            return
+        }
+        const queryOptions = { period1: from, interval: interval};
+        const result = await yahooFinance.chart(symbol, queryOptions);
+        const quotes = result.quotes
+        if(quotes.length > 10) {
+            const latest10 = quotes.slice(quotes.length - 10)
+            const reformattedData = historicalDataDeserializer(latest10)
+            res.status(200).json(reformattedData)
+            return
+        }
+        const reformattedData = historicalDataDeserializer(result.quotes)
         res.status(200).json(reformattedData)
-        return
+    } catch(err) {
+        res.status(500).send("something went wrong!")
     }
-    const reformattedData = historicalDataDeserializer(result.quotes)
-    res.status(200).json(reformattedData)
 }
