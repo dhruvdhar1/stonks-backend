@@ -103,3 +103,17 @@ export const getHistoricalQuotes = async (req: Request, res: Response) => {
         res.status(500).send("something went wrong!")
     }
 }
+
+export const getStockSymbolSuggesstions = async (req: Request, res: Response) => {
+    try {
+        const searchTerm = req.params["searchTerm"]
+        if(!searchTerm) {
+            res.status(400).send("invalid input")
+        }
+        const symbols = await finnhubClient.symbolSearch(searchTerm)
+        res.status(200).send(symbols.data)
+    } catch(err) {
+        console.log("err: ", err)
+        res.status(500).send("something went wrong!")
+    }
+}
