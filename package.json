@@ -1,0 +1,29 @@
+{
+  "name": "streamr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "run": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dhruv Dhar",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/koa": "^2.15.0",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "event-flare": "^1.0.1",
+    "express": "^4.21.0",
+    "express-types": "^0.0.4",
+    "finnhub-ts": "^1.0.7",
+    "koa": "^2.15.3",
+    "yahoo-finance2": "^2.12.4"
+  }
+}
