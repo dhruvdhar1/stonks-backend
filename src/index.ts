@@ -18,6 +18,10 @@ app.use(bodyParser.json())
 
 app.use(cors());
 app.use(rootRouter)
+app.get('/', (req, res) => {
+    console.log("request received...")
+    res.send("It works!!")
+})
 app.listen(PORT, () => {
     console.log('app started...')
 })
