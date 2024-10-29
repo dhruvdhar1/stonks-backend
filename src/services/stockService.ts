@@ -94,7 +94,8 @@ export const getLatestQuote = async (req: Request, res: Response) => {
             regularMarketChange: quote.regularMarketChange?.toFixed(2),
             regularMarketOpen: quote.regularMarketOpen?.toFixed(2),
             regularMarketPreviousClose: quote.regularMarketPreviousClose?.toFixed(2),
-            postMarketChange: quote.postMarketChange?.toFixed(2)
+            postMarketChange: quote.postMarketChange?.toFixed(2),
+            regularMarketVolume: quote.regularMarketVolume?.toFixed(2)
          }
          res.status(200).json(reformattedQuote)
     } catch(err) {
