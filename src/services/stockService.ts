@@ -73,6 +73,32 @@ export const subscribeStockQuote = async (req: Request, res: Response) => {
 
 }
 
+export const getLatestQuote = async (req: Request, res: Response) => {
+    try {
+        console.log("invoked getLatestQuote API")
+        const symbol = req.params["symbol"]
+        if(!symbol) {
+            res.status(400).send("invalid symbol")
+            return
+        }
+        const quote = await yahooFinance.quote(symbol);
+        const reformattedQuote = { 
+            regularMarketPrice: quote.regularMarketPrice?.toFixed(2), 
+            averageDailyVolume10Day: quote.averageDailyVolume10Day,
+            displayName: quote.displayName,
+            fiftyTwoWeekHighChange: quote.fiftyTwoWeekHighChange?.toFixed(2),
+            fiftyTwoWeekHigh: quote.fiftyTwoWeekHigh?.toFixed(2),
+            fiftyTwoWeekLow: quote.fiftyTwoWeekLow?.toFixed(2),
+            postMarketPrice: quote.postMarketPrice?.toFixed(2), //close
+            regularMarketChangePercent: quote.regularMarketChangePercent?.toFixed(2),
+            regularMarketChange: quote.regularMarketChange?.toFixed(2)
+         }
+         res.status(200).json(reformattedQuote)
+    } catch(err) {
+
+    }
+}
+
 export const getHistoricalQuotes = async (req: Request, res: Response) => {
     try {
         console.log("request received...")
@@ -100,6 +126,7 @@ export const getHistoricalQuotes = async (req: Request, res: Response) => {
         const reformattedData = historicalDataDeserializer(result.quotes)
         res.status(200).json(reformattedData)
     } catch(err) {
+        console.log(err)
         res.status(500).send("something went wrong!")
     }
 }
